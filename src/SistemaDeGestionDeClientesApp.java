@@ -16,7 +16,7 @@ import java.util.Scanner;
  * - Permite iniciar sesión, cerrar sesión y volver a entrar.
  * - Finaliza solo si el usuario lo decide.
  * 
- * @author Brajan
+ * @author Jorge
  * @version 1.1
  */
 public class SistemaDeGestionDeClientesApp {

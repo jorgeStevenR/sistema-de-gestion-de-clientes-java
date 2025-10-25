@@ -13,7 +13,7 @@ import java.util.Scanner;
  * - Ejecutar las operaciones CRUD.
  * - Registrar acciones de los usuarios.
  * 
- * @author Brajan
+ * @author Jorge
  * @version 1.0
  */
 public class ClienteController {
@@ -116,6 +116,8 @@ public class ClienteController {
 
         if (actualizado) {
             usuario.registrarAccion(new Accion("Actualizó su información"));
+        }else{
+            usuario.registrarAccion(new Accion("No puedo actualizar su informacion algo fallo"));
         }
     }
 
