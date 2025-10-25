@@ -1,11 +1,12 @@
 package model;
+import java.time.LocalDateTime;
 
 /**
  * Representa una acción realizada por un cliente en el sistema.
  */
 public class Accion {
     private String descripcionAccion;
-    private long marcaTiempo;
+    private LocalDateTime marcaTiempo;
 
     /**
      * Constructor de la acción.
@@ -14,14 +15,14 @@ public class Accion {
      */
     public Accion(String descripcionAccion) {
         this.descripcionAccion = descripcionAccion;
-        this.marcaTiempo = System.currentTimeMillis();
+        this.marcaTiempo =LocalDateTime.now();
     }
 
     public String getDescripcionAccion() {
         return descripcionAccion;
     }
 
-    public long getMarcaTiempo() {
+    public LocalDateTime getMarcaTiempo() {
         return marcaTiempo;
     }
 
