@@ -1,0 +1,30 @@
+@startuml siste-de-gestion-de-clientes
+
+class Clientes{
+    - String nombre
+    - Integer id
+    - String nombreUsuario
+    - String contraeña
+}
+
+enum Rol{
+    ADMINISTRADOR,
+    ESTANDAR;
+}
+
+class Accion {
+
+- descripcionAccion String
+
+}
+
+class HistorialAccion {
+
+
+}
+
+HistorialAccion "1" o-- "1..*"Accion
+Clientes "1" -- "1" HistorialAccion
+Clientes  <-- Rol
+
+@enduml
