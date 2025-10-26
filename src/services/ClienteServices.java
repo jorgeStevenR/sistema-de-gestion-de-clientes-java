@@ -22,13 +22,14 @@ import javax.swing.text.StyledEditorKit.BoldAction;
 
 
 import model.Cliente;
+import model.Rol;
 
 public class ClienteServices {
 
     /** Arreglo que contiene los clientes registrados en el sistema. */
     private  Cliente[] clientes ;
 
-     public ClienteServices(int tamaño) {
+    public ClienteServices(int tamaño) {
         this.clientes = new Cliente[tamaño];
     }
 
@@ -39,17 +40,26 @@ public class ClienteServices {
      * @return {@code true} si el usuario fue agregado correctamente,
      *         {@code false} si el arreglo está lleno o el objeto es nulo.
      */
-    public Boolean crearUsuarios(Cliente usuario){
-        if(usuario == null) return false;
-
-        for (int i = 0; i < clientes.length; i++) {
-            if(clientes[i] == null){
-                clientes[i] = usuario;
-                return true;
-            }
-        }
+    public Boolean crearUsuarios(String nombreUsuario, String nombre, String contraseña, Rol rol){
+        if(nombreUsuario==null && nombre ==null && contraseña==null && rol==null)return false;
+        Cliente usuario;
+        if(!nombreUsuario.trim().isEmpty() &&
+            !nombre.trim().isEmpty() && 
+            !contraseña.trim().isEmpty() && 
+            (rol == Rol.ADMINISTRADOR || rol == Rol.ESTANDAR)){
+                for (int i = 0; i < clientes.length; i++) {
+                    if(clientes[i] == null){
+                        clientes[i] = usuario = new Cliente( nombreUsuario,  nombre,  contraseña, rol);;
+                        System.out.println("Cliente creado correctamente");
+                        return true;
+                    }
+                }
         System.out.println("No hay espacio para mas clientes");
         return false;
+        }
+        return false;
+
+        
     }
 
 
@@ -62,7 +72,7 @@ public class ClienteServices {
      */
     public Cliente buscarClientePorIdONombre(Integer id,String nombreUsuario){
         if((id==null || id<0)&&(nombreUsuario==null || nombreUsuario.isEmpty())){
-            System.out.println("Debe proporcionar un id o un nombre valido");
+            System.out.println("Debe proporcionar un id o un nombre valido"); 
             return null;
         }
         
@@ -136,6 +146,7 @@ public class ClienteServices {
                 System.out.println("La contraseña actual no es correcta. No se actualizó la contraseña.");
             }
         }
+
         acutalizado = actualizadoContraseña || actualizadoNombre;
 
         // --- Mensajes finales ---
@@ -153,7 +164,7 @@ public class ClienteServices {
                 System.out.println("   - La contraseña no se pudo actualizar o no fue modificada.");
             }
         }else{
-            System.out.println("No se realizó ningún cambio en los datos del cliente.");
+            System.out.println("No se realizó ningún cambio en los datos del cliente.");         
         }
 
         return acutalizado;

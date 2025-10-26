@@ -12,12 +12,12 @@ import java.util.Scanner;
  * 
  * Flujo:
  * - Inicializa el sistema.
- * - Crea usuarios base (admin y estándar).
+ * - Crea usuarios base (admin y estándar) usando el servicio.
  * - Permite iniciar sesión, cerrar sesión y volver a entrar.
  * - Finaliza solo si el usuario lo decide.
  * 
  * @author Jorge
- * @version 1.1
+ * @version 1.3
  */
 public class SistemaDeGestionDeClientesApp {
 
@@ -31,12 +31,9 @@ public class SistemaDeGestionDeClientesApp {
         // Controlador del sistema
         ClienteController controller = new ClienteController(clienteServices);
 
-        // Usuarios iniciales (ID autogenerado)
-        Cliente admin = new Cliente("adminUser", "Administrador del Sistema", "admin123", Rol.ADMINISTRADOR);
-        Cliente user = new Cliente("brajan123", "Brajan Velásquez", "1234", Rol.ESTANDAR);
-
-        clienteServices.crearUsuarios(admin);
-        clienteServices.crearUsuarios(user);
+        // Crear usuarios base usando el servicio (no creando objetos manualmente)
+        clienteServices.crearUsuarios("adminUser", "Administrador del Sistema", "admin123", Rol.ADMINISTRADOR);
+        clienteServices.crearUsuarios("brajan123", "Brajan Velásquez", "1234", Rol.ESTANDAR);
 
         // Scanner general
         Scanner scanner = new Scanner(System.in);
@@ -50,10 +47,10 @@ public class SistemaDeGestionDeClientesApp {
             Cliente usuarioLogueado = null;
             while (usuarioLogueado == null) {
                 System.out.print("\nIngrese su nombre de usuario: ");
-                String username = scanner.nextLine();
+                String username = scanner.nextLine().trim();
 
                 System.out.print("Ingrese su contraseña: ");
-                String password = scanner.nextLine();
+                String password = scanner.nextLine().trim();
 
                 usuarioLogueado = controller.iniciarSesion(username, password);
             }

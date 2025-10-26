@@ -26,7 +26,7 @@ public class HistorialAccion {
         if (indice < acciones.length) {
             acciones[indice++] = accion;
         } else {
-            System.out.println("⚠️ Historial lleno. No se pueden registrar más acciones.");
+            System.out.println("Historial lleno. No se pueden registrar más acciones.");
         }
     }
 

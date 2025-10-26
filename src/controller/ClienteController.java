@@ -2,6 +2,8 @@ package controller;
 
 import model.*;
 import services.ClienteServices;
+
+import java.time.format.DateTimeFormatter;
 import java.util.Scanner;
 
 /**
@@ -123,37 +125,51 @@ public class ClienteController {
 
     // Mostrar historial de acciones del usuario
     private void mostrarHistorial(Cliente usuario) {
-        System.out.println("\n===== HISTORIAL DE ACCIONES =====");
-        for (Accion accion : usuario.getHistorial().getAcciones()) {
-            if (accion != null) {
-                System.out.printf("[%d] %s%n", accion.getMarcaTiempo(), accion.getDescripcionAccion());
-            }
+    System.out.println("\n===== HISTORIAL DE ACCIONES =====");
+    DateTimeFormatter formato = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSS");
+    for (Accion accion : usuario.getHistorial().getAcciones()) {
+        if (accion != null) {
+            String fechaFormateada = accion.getMarcaTiempo().format(formato);
+            System.out.printf("[%s] %s%n", fechaFormateada, accion.getDescripcionAccion());
         }
     }
-
+}
+    // Crear nuevo usuario (solo para administradores)
     // Crear nuevo usuario (solo para administradores)
     private void crearUsuario(Cliente admin) {
-        System.out.println("\n===== CREAR NUEVO USUARIO =====");
-        System.out.print("Nombre completo: ");
-        String nombre = scanner.nextLine();
-        System.out.print("Nombre de usuario: ");
-        String username = scanner.nextLine();
-        System.out.print("Contraseña: ");
-        String password = scanner.nextLine();
-        System.out.print("Rol (1=ADMINISTRADOR, 2=ESTÁNDAR): ");
-        int opcionRol = scanner.nextInt();
-        scanner.nextLine();
+    System.out.println("\n===== CREAR NUEVO USUARIO =====");
 
+    System.out.print("Nombre completo: ");
+    String nombre = scanner.nextLine().trim();
+
+    System.out.print("Nombre de usuario: ");
+    String username = scanner.nextLine().trim();
+
+    System.out.print("Contraseña: ");
+    String password = scanner.nextLine().trim();
+
+    System.out.print("Rol (1=ADMINISTRADOR, 2=ESTÁNDAR): ");
+    int opcionRol;
+        try {
+            opcionRol = Integer.parseInt(scanner.nextLine().trim());
+        } catch (NumberFormatException e) {
+            System.out.println("Entrada inválida. Debe ingresar 1 o 2.");
+            return;
+        }
+        
         Rol rol = (opcionRol == 1) ? Rol.ADMINISTRADOR : Rol.ESTANDAR;
-        Cliente nuevo = new Cliente(username, nombre, password, rol);
 
-        if (clienteServices.crearUsuarios(nuevo)) {
+        // Llamamos al servicio con los datos, NO con un objeto Cliente
+        boolean creado = clienteServices.crearUsuarios(username, nombre, password, rol);
+
+        if (creado) {
             admin.registrarAccion(new Accion("Creó un nuevo usuario: " + username));
             System.out.println("Usuario creado correctamente.");
         } else {
-            System.out.println("No se pudo crear el usuario (posiblemente no hay espacio).");
+            System.out.println("No se pudo crear el usuario (datos inválidos o sin espacio).");
         }
     }
+
 
     // Buscar usuario (solo para administradores)
     private void buscarUsuario(Cliente admin) {
