@@ -186,7 +186,7 @@ public class ClienteController {
         }
 
         if (encontrado != null) {
-            System.out.printf("✅ Usuario encontrado: %s (%s)%n", encontrado.getNombre(), encontrado.getRol());
+            System.out.printf("Usuario encontrado: %s (%s)%n", encontrado.getNombre(), encontrado.getRol());
             admin.registrarAccion(new Accion("Buscó al usuario: " + encontrado.getNombreUsuario()));
         } else {
             System.out.println("No se encontró ningún usuario con los datos ingresados.");
